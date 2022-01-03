@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const router = express.Router();
+const request = require('request');
 var fs = require('fs');
 const app = express();
 const port = process.env.PORT || '3000';
@@ -9,14 +10,27 @@ const port = process.env.PORT || '3000';
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-router.post('/paymentGateway',(request,response) => {
-    //code to perform particular action.
-    //To access POST variable use req.body()methods.
-    console.log(request.body);
+router.post('/v1/paymentGateway',(request,response) => {
+    console.log(req.body);
+    request.post(
+      {
+        url:'https://a4ab-81-214-161-1.ngrok.io/v1/paymentGateway',
+        json: req.body,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      },
+      function(error, response, body){
+        // console.log(error);
+        // console.log(response);
+        console.log(body);
+        res.send(body);
+    });
+    // res.send("body");
     });
 
 
-router.get('/', (req, res) => {
+router.get('/.well-known/apple-developer-merchantid-domain-association.txt', (req, res) => {
     fs.readFile('apple-developer-merchantid-domain-association.txt',function (err, data){
         res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
         res.write(data);
