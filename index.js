@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const router = express.Router();
-const request = require('request');
+var request = require('request');
 var fs = require('fs');
 const app = express();
 const port = process.env.PORT || '3000';
@@ -10,7 +10,7 @@ const port = process.env.PORT || '3000';
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-router.post('/v1/paymentGateway',(request,response) => {
+router.post('/v1/paymentGateway',(req,res) => {
     console.log(req.body);
     request.post(
       {
@@ -21,9 +21,9 @@ router.post('/v1/paymentGateway',(request,response) => {
         }
       },
       function(error, response, body){
-        // console.log(error);
-        // console.log(response);
-        console.log(body);
+        //console.log(error);
+        //console.log(response);
+        //console.log(body);
         res.send(body);
     });
     // res.send("body");
